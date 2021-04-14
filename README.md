@@ -1,33 +1,17 @@
-# egg
+# docker-egg
+-------------------------
+学习docker使用eggjs部署服务
 
-
-
-## QuickStart
-
-<!-- add docs here for user -->
-
-see [egg docs][egg] for more detail.
-
-### Development
-
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
+script
+```sh
+npm run start
+npm run stop
+npm run dev
+npm run debug
+npm run test
+npm run test-local
+npm run cov
+npm run lint
+npm run ci
+npm run autod
 ```
-
-### Deploy
-
-```bash
-$ npm start
-$ npm stop
-```
-
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
