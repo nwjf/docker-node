@@ -5,7 +5,7 @@
 
 from node:12
 
-add . /app
+add ./app
 
 workdir /app
 
@@ -17,4 +17,4 @@ expose 7001
 
 volume ["/app"]
 
-cmd ["npm", "run", "fg-start"]
+cmd ["npm", "run", "start"]
