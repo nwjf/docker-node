@@ -7,6 +7,6 @@ workdir /app
 
 run npm install
 
-cmd ["npm", "run", "start"]
-
 expose 7001
+
+cmd ["npm", "run", "start"]
