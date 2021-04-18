@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<style>
+  body {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px;
+  }
+  .box {
+    box-shadow: 0 0 10px 10px #f8f8f8;
+    padding: 50px;
+  }
+  .input {
+    height: 40px;
+    font-size: 16px;
+    padding: 0 10px;
+    margin-right: 10px;
+  }
+  .submit {
+    padding: 0 10px;
+    height: 40px;
+    outline: none;
+    margin-top: 20px;
+  }
+  td {
+    padding: 4px 10px;
+  }
+</style>
+<body>
+  <div id="app">
+
+    <div class="title">欢迎来到redis学习测试页面</div>
+  
+    <div class="box">
+      <input v-model="key" type="text" class="input key" placeholder="key">:
+      <input v-model="value" type="text" class="input value" placeholder="value" style="width: 800px">
+      <br>
+      <button class="submit" @click="submit">添加/修改</button>
+    </div>
+    <div class="box" style="margin-top:40px;">
+      <table border cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>key</td>
+          <td>value</td>
+          <td>操作</td>
+        </tr>
+        <tr v-for="(v, k) in list">
+          <td><input type="text" :value="k" disabled></td>
+          <td><input type="text" :value="v" disabled></td>
+          <td><button @click="del(k, v)">删除</button></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</body>
+</html>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      key: '',
+      value: '',
+      list: {},
+      data: [1, 2],
+      b: 1
+    },
+    created() {
+      console.log('====created');
+    },
+    mounted() {
+      this.getList();
+    },
+    methods: {
+      
+      getList() {
+        $.ajax({
+          url: '/redis/list',
+          methos: 'get',
+          success: res => {
+            this.list = res.data;
+          }
+        })
+      },
+      // sub
+      submit() {
+        let key = this.key;
+        let value = this.value;
+        if (!key) {
+          alert('请输入key')
+          return false;
+        }
+        try {
+          if ((/\[\]\{\},:/gim).test(value)) {
+            value = JSON.parse(value);
+          }
+          $.ajax({
+            url: '/redis/add',
+            method: 'post',
+            data: {
+              key,
+              value
+            },
+            success: res => {
+              this.getList();
+            }
+          })
+        } catch (error) {
+          alert('输入value有误')
+        }
+      },
+      del(key, value) {
+        $.ajax({
+          url: '/redis/del',
+          method: 'post',
+          data: {
+            key
+          },
+          success: res => {
+            this.getList();
+          }
+        })
+      }
+    }
+  })
+
+
+</script>
