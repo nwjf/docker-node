@@ -1,5 +1,6 @@
 
 from node:12
+from redis
 
 copy . /app
 
